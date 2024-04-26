@@ -221,45 +221,11 @@ Because the PSP uses a MIPS CPU without coherent caches, the caches must be mana
 
 The "access" parameter of `glMapBufferARB` is used to determine how the cache is treated for the new memory:
 
-Mapping access
-
-Mapping type
-
-Map action
-
-Unmap action
-
-Notes
-
-`GL_WRITE_ONLY_ARB`
-
-Uncached
-
-sync with hardware if busy
-
-\-
-
-The mapping is uncached to help prevent cache pollution; reads will work from a write-only mapping, but they'll probably be very slow. If you're replacing the entire contents of the buffer while the hardware is potentially using it, it is more efficient to use `glBufferDataARB` to replace the buffer with a new one, because this doesn't require waiting on the hardware.
-
-`GL_READ_ONLY_ARB`
-
-Cached
-
-\-
-
-cache is invalidated but not flushed
-
-This will still be writable, but writing to it may cause very strange, non-deterministic results; the cache lines may not be flushed to memory for the hardware to see, or they may be discarded without ever being written (giving the appearance of data which "sticks" for a while, but then reverts to its old value).
-
-`GL_READ_WRITE_ARB`
-
-Cached
-
-sync with hardware if busy
-
-dirty lines are flushed, and the cache is invalidated
-
-Safe for all usage, but not as efficient. Use only if you really need to have read-write access to the memory.
+**Mapping access** | **Mapping type** | **Map action** | **Unmap action** | **Notes**
+----- | ----- | ----- | ----- | -----
+`GL_WRITE_ONLY_ARB` | Uncached | sync with hardware if busy | - | The mapping is uncached to help prevent cache pollution; reads will work from a write-only mapping, but they'll probably be very slow. If you're replacing the entire contents of the buffer while the hardware is potentially using it, it is more efficient to use glBufferDataARB to replace the buffer with a new one, because this doesn't require waiting on the hardware.
+`GL_READ_ONLY_ARB` | Cached | - | cache is invalidated but not flushed | This will still be writable, but writing to it may cause very strange, non-deterministic results; the cache lines may not be flushed to memory for the hardware to see, or they may be discarded without ever being written (giving the appearance of data which "sticks" for a while, but then reverts to its old value).
+`GL_READ_WRITE_ARB` | Cached | sync with hardware if busy | dirty lines are flushed, and the cache is invalidated | Safe for all usage, but not as efficient. Use only if you really need to have read-write access to the memory.
 
 In general, the assumption is that buffer objects are intended for buffers shared with hardware. They are kept in CPU cache only while mapped for access by the CPU, and are otherwise evicted from the cache. This leaves the CPU cache free for other data, and makes sure the hardware always sees a consistent view of the memory. If you don't put your arrays in buffer objects into a form which is directly useful to hardware, you end up using buffer objects like an inefficient form of `malloc` with bad cache characteristics.
 
@@ -267,41 +233,13 @@ Note that it is always an error to map a buffer while it is still in use; PSPGL 
 
 To arrange a vertex array in native vertex format, you must specify your arrays in the following order in memory (leaving out any array you're not enabling), with sizes and types as follows:
 
-Array
-
-Types
-
-Size
-
-GL\_TEX\_COORD\_ARRAY
-
-GL\_BYTE, GL\_SHORT, GL\_FLOAT
-
-2
-
-GL\_WEIGHT\_ARRAY\_PSP
-
-GL\_BYTE, GL\_SHORT, GL\_FLOAT
-
-1-8
-
-GL\_COLOR\_ARRAY
-
-GL\_UNSIGNED\_BYTE
-
-4
-
-GL\_NORMAL\_ARRAY
-
-GL\_BYTE, GL\_SHORT, GL\_FLOAT
-
-3
-
-GL\_VERTEX\_ARRAY
-
-GL\_BYTE, GL\_SHORT, GL\_FLOAT
-
-3
+**Array** | **Types** | **Size**
+----- | ----- | -----
+GL\_TEX\_COORD\_ARRAY | GL\_BYTE, GL\_SHORT, GL\_FLOAT | 2
+GL\_WEIGHT\_ARRAY\_PSP | GL\_BYTE, GL\_SHORT, GL\_FLOAT | 1-8
+GL\_COLOR\_ARRAY | GL\_UNSIGNED\_BYTE | 4
+GL\_NORMAL\_ARRAY | GL\_BYTE, GL\_SHORT, GL\_FLOAT | 3
+GL\_VERTEX\_ARRAY | GL\_BYTE, GL\_SHORT, GL\_FLOAT | 3
 
 See [the Wiki](http://wiki.ps2dev.org/psp:ge_vertex_format) for more details.
 
@@ -324,119 +262,26 @@ The PSP hardware seems to have a bug where a texture viewed from a particular an
 
 The following types and formats are supported:
 
-Format
-
-Type
-
-Hardware bytes/pixel
-
-GL\_RGB
-
-GL\_UNSIGNED\_BYTE
-
-4
-
-GL\_RGB
-
-GL\_UNSIGNED\_SHORT\_5\_5\_5\_1
-
-2
-
-GL\_RGB
-
-GL\_UNSIGNED\_SHORT\_5\_6\_5
-
-2
-
-GL\_RGB
-
-GL\_UNSIGNED\_SHORT\_4\_4\_4\_4
-
-2
-
-GL\_RGB
-
-GL\_UNSIGNED\_SHORT\_1\_5\_5\_5\_REV
-
-2\*
-
-GL\_RGB
-
-GL\_UNSIGNED\_SHORT\_5\_6\_5\_REV
-
-2\*
-
-GL\_RGB
-
-GL\_UNSIGNED\_SHORT\_4\_4\_4\_4\_REV
-
-2\*
-
-GL\_BGR
-
-GL\_UNSIGNED\_SHORT\_5\_6\_5
-
-2\*
-
-GL\_RGBA
-
-GL\_UNSIGNED\_BYTE
-
-4\*
-
-GL\_RGBA
-
-GL\_UNSIGNED\_SHORT\_5\_5\_5\_1
-
-2
-
-GL\_RGBA
-
-GL\_UNSIGNED\_SHORT\_4\_4\_4\_4
-
-2
-
-GL\_RGBA
-
-GL\_UNSIGNED\_SHORT\_1\_5\_5\_5\_REV
-
-2\*
-
-GL\_RGBA
-
-GL\_UNSIGNED\_SHORT\_4\_4\_4\_4\_REV
-
-2\*
-
-GL\_ABGR\_EXT
-
-GL\_UNSIGNED\_SHORT\_4\_4\_4\_4
-
-2\*
-
-GL\_LUMINANCE\_ALPHA
-
-GL\_UNSIGNED\_BYTE
-
-4
-
-GL\_LUMINANCE
-
-GL\_UNSIGNED\_BYTE
-
-1\*
-
-GL\_ALPHA
-
-GL\_UNSIGNED\_BYTE
-
-1\*
-
-GL\_INTENSITY
-
-GL\_UNSIGNED\_BYTE
-
-1\*
+**Format** | **Type** | **Hardware bytes/pixel**
+----- | ----- | -----
+GL\_RGB | GL\_UNSIGNED\_BYTE | 4
+GL\_RGB | GL\_UNSIGNED\_SHORT\_5\_5\_5\_1 | 2
+GL\_RGB | GL\_UNSIGNED\_SHORT\_5\_6\_5 | 2
+GL\_RGB | GL\_UNSIGNED\_SHORT\_4\_4\_4\_4 | 2
+GL\_RGB | GL\_UNSIGNED\_SHORT\_1\_5\_5\_5\_REV | 2\*
+GL\_RGB | GL\_UNSIGNED\_SHORT\_5\_6\_5\_REV | 2\*
+GL\_RGB | GL\_UNSIGNED\_SHORT\_4\_4\_4\_4\_REV | 2\* 
+GL\_BGR | GL\_UNSIGNED\_SHORT\_5\_6\_5 | 2\*
+GL\_RGBA | GL\_UNSIGNED\_BYTE | 4\*
+GL\_RGBA | GL\_UNSIGNED\_SHORT\_5\_5\_5\_1 | 2
+GL\_RGBA | GL\_UNSIGNED\_SHORT\_4\_4\_4\_4 | 2
+GL\_RGBA | GL\_UNSIGNED\_SHORT\_1\_5\_5\_5\_REV | 2\*
+GL\_RGBA | GL\_UNSIGNED\_SHORT\_4\_4\_4\_4\_REV | 2\*
+GL\_ABGR\_EXT | GL\_UNSIGNED\_SHORT\_4\_4\_4\_4 | 2\* 
+GL\_LUMINANCE\_ALPHA | GL\_UNSIGNED\_BYTE | 4
+GL\_LUMINANCE | GL\_UNSIGNED\_BYTE | 1\*
+GL\_ALPHA | GL\_UNSIGNED\_BYTE | 1\*
+GL\_INTENSITY | GL\_UNSIGNED\_BYTE | 1\*
 
 Formats marked with \* are native and require no conversion.
 
@@ -485,25 +330,12 @@ gl\*Pointer
 
 The `gl*Pointer` functions take a different set of types, which (mostly) match the hardware's capabilities:
 
-Function
-
-Types
-
-`glVertexPointer`
-
-GL\_BYTE, GL\_SHORT, GL\_FLOAT
-
-`glTexCoordPointer`
-
-GL\_BYTE, GL\_SHORT, GL\_FLOAT
-
-`glColorPointer`
-
-GL\_UNSIGNED\_BYTE, GL\_FLOAT (not-native)
-
-`glNormalPointer`
-
-GL\_BYTE, GL\_SHORT, GL\_FLOAT
+**Function** | **Types**
+----- | -----
+`glVertexPointer` | GL\_BYTE, GL\_SHORT, GL\_FLOAT
+`glTexCoordPointer` | GL\_BYTE, GL\_SHORT, GL\_FLOAT
+`glColorPointer` | GL\_UNSIGNED\_BYTE, GL\_FLOAT (not-native)
+`glNormalPointer` | GL\_BYTE, GL\_SHORT, GL\_FLOAT
 
 A future extension will be to allow `glColorPointer` to take a variety of packed colour formats, to make better use of the PSP's vertex colour formats.
 
