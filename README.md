@@ -102,33 +102,25 @@ Features of PSPGL
 
 A quick list of PSPGL features:
 
-texture format conversion
-
-PSPGL accepts a wide range of common texture formats, and will convert them into hardware format.
-
-compressed/paletted textures
-
-vertex array format conversion
+<table>
+<tr><td>texture format conversion</td>
+<td>PSPGL accepts a wide range of common texture formats, and will convert them into hardware format.</td></tr>
+<tr><td>compressed/paletted textures</td><td></td></tr>
+<tr><td>vertex array format conversion</td><td>
 
 You can use the normal `gl*Pointer` calls to configure arrays in any way you like (though using native hardware layout will be most efficient)
 
-compiled vertex arrays
-
-The CVA extension allows vertex array copying/conversion to be cached for multiple uses of an array.
-
-vertex buffer objects
-
-VBOs allow vertex data to be used directly without copying or conversion.
-
-EGL config selection works
-
-You can choose 16 or 32 bit framebuffers in a number of configurations, and decide whether or not to have a depth buffer
+</td></tr><tr><td>compiled vertex arrays</td>
+<td>The CVA extension allows vertex array copying/conversion to be cached for multiple uses of an array.</td></tr>
+<tr><td>vertex buffer objects</td>
+<td>VBOs allow vertex data to be used directly without copying or conversion.</td></tr>
+<tr><td>EGL config selection works</td>
+<td>You can choose 16 or 32 bit framebuffers in a number of configurations, and decide whether or not to have a depth buffer</td></tr><tr><td>
 
 [extensions](#extensions) for PSP hardware features
 
-GL extensions allow PSP hardware features to be exposed in an efficient way without breaking programs which don't know/care abou them.
-
-Automatic mipmap generation in hardware
+</td><td>GL extensions allow PSP hardware features to be exposed in an efficient way without breaking programs which don't know/care abou them.</td></tr>
+<tr><td>Automatic mipmap generation in hardware</td><td></td></tr></table>
 
 General limitations
 -------------------
@@ -146,45 +138,47 @@ PSPGL supports specifying geometry in immediate mode within a `glBegin/glEnd` pa
 
 The following primitives are supported:
 
+<table><tr><td>
+
 `GL_POINTS`
 
-Only 1 pixel points
+</td><td>Only 1 pixel points</td></tr><tr><td>
 
 `GL_LINES`
 
-Only 1 pixel lines
+</td><td>Only 1 pixel lines</td></tr><tr><td>
 
 `GL_LINE_STRIP`
 
-OK
+</td><td>OK</td></tr><tr><td>
 
 `GL_LINE_LOOP`
 
-Behaves the same as a LINE\_STRIP: the closing edge isn't drawn
+</td><td>Behaves the same as a LINE_STRIP: the closing edge isn't drawn</td></tr><tr><td>
 
 `GL_TRIANGLES`
 
-OK
-
+</td><td>OK</td></tr><tr><td>
+        
 `GL_TRIANGLE_STRIP`
 
-OK
+</td><td>OK</td></tr><tr><td>
 
 `GL_TRIANGLE_FAN`
 
-OK
+</td><td>OK</td></tr><tr><td>
 
 `GL_QUADS`
 
-not supported
+</td><td>not supported</td></tr><tr><td>
 
 `GL_QUAD_STRIP`
 
-not supported
+</td><td>not supported</td></tr><tr><td>
 
 `GL_POLYGON`
 
-not supported
+</td><td>not supported</td></tr></table>
 
 Vertex arrays
 -------------
@@ -344,51 +338,54 @@ GL\_PSP\_statistics
 
 This is an extension which is return in the GL\_EXTENSIONS string. It allows an application to get various performance meaurements out of PSPGL. It defines the following functions:
 
+<table><tr><td>
+
 `glEnableStatsPSP(GLenum)`
 
-This enables one aspect of statistics gathering. Currently, the only value it accepts is `GL_STATS_TIMING_PSP`.
+</td><td>This enables one aspect of statistics gathering. Currently, the only value it accepts is GL_STATS_TIMING_PSP.</td></tr><tr><td>
 
 `glDisableStatsPSP(GLenum)`
 
-Disable statistics gathering.
+</td><td>Disable statistics gathering.</td></tr><tr><td>
 
 `glResetStatsPSP(GLenum)`
 
-Reset a particular counter or timer. Accepts the values:
+</td><td>Reset a particular counter or timer. Accepts the values: 
+<table><tr><td>
 
-GL\_STATS\_CMDISSUES\_PSP
+**GL\_STATS\_CMDISSUES\_PSP**
 
-Reset the "command issue" counter.
+</td><td>Reset the "command issue" counter.</td></tr><tr><td>
 
-GL\_STATS\_QUEUEWAITTIME\_PSP
+**GL\_STATS\_QUEUEWAITTIME\_PSP**
 
-Reset the "queue wait time" timer.
+</td><td>Reset the "queue wait time" timer.</td></tr></table></td></tr><tr><td>
 
 `glGetStatisticsuivPSP(GLenum, GLuint *)`
 
-Return a measturement. Values available are:
+</td><td>Return a measturement. Values available are:
+<table><tr><td>
 
-GL\_STATS\_FRAMETIME\_PSP
+**GL\_STATS\_FRAMETIME\_PSP**
 
-Return the total frame time from the end of swap-buffers to swap-buffers for the previous frame.
+</td><td>Return the total frame time from the end of swap-buffers to swap-buffers for the previous frame.</td></tr><tr><td>
 
-GL\_STATS\_APPTIME\_PSP
+**GL\_STATS\_APPTIME\_PSP**
 
-Return the amount of time between the end of one swap-buffers to the start of the next.
+</td><td>Return the amount of time between the end of one swap-buffers to the start of the next.</td></tr><tr><td>
 
-GL\_STATS\_SWAPTIME\_PSP
+**GL\_STATS\_SWAPTIME\_PSP**
 
-Return the amount of time spent in the last swap-buffers.
+</td><td>Return the amount of time spent in the last swap-buffers.</td></tr><tr><td>
 
-GL\_STATS\_CMDISSUES\_PSP
+**GL\_STATS\_CMDISSUES\_PSP**
 
-Return the number of buffer flushes since it was last reset.
+</td><td>Return the number of buffer flushes since it was last reset.</td></tr><tr><td>
 
-GL\_STATS\_QUEUEWAITTIME\_PSP
+**GL\_STATS\_QUEUEWAITTIME\_PSP**
 
-Return the amount of time spent waiting for the graphics processor to finish a queue of commands.
-
-All times are in microseconds.
+</td><td>Return the amount of time spent waiting for the graphics processor to finish a queue of commands.</td></tr></table>
+All times are in microseconds.</td></tr></table>
 
 GL\_PSP\_bezier\_patch
 ----------------------
@@ -401,29 +398,35 @@ The primitives emitted by the hardware when subdividing the patch are treated li
 
 Functions:
 
+<table><tr><td>
+
 `void glDrawBezierArraysPSP(Glenum mode, GLuint u, GLuint v, GLint first)`
 
-This function draws the patch, using a u by v array of control points. `mode` specifies which primitive is to be used for the patch; it may be one of GL\_TRIANGLES, GL\_LINES or GL\_POINTS.
+</td><td>This function draws the patch, using a u by v array of control points. mode specifies which primitive is to be used for the patch; it may be one of GL_TRIANGLES, GL_LINES or GL_POINTS.</td></tr><tr><td>
 
 `void glDrawBezierElementsPSP(GLenum mode, GLuint u, GLuint v, GLenum idx_type, const GLvoid *indices)`
 
+</td><td></td></tr><td>
+
 `void glDrawBezierRangeElementsPSP(GLenum mode, GLuint u, GLuint v, GLenum idx_type, const GLvoid *indices)`
 
-The obvious indexed version of glDrawBezierArrays
+</td><td>The obvious indexed version of glDrawBezierArrays</td></tr><tr><td>
 
 `void glPatchSubdivisionPSP(GLuint u, GLuint v)`
 
-Sets the level of subdivision performed for each patch. The default value for u and v is 4. 64 seems to be the upper limit.
+</td><td>Sets the level of subdivision performed for each patch. The default value for u and v is 4. 64 seems to be the upper limit.</td></tr><tr><td>
 
 `void glDrawSplineArraysPSP(GLenum mode, GLuint u, GLuint v, GLenum uflags, GLenum vflags, GLint first);`
 
-This draws a spline patch. This is much like a bezier patch, but the whole patch is smooth, rather than being smooth in 4x4 sub-patches. The two flags specify whether the patch is intended to abut another spline patch. There are four flag combinations: GL\_PATCH\_INNER\_INNER\_PSP, GL\_PATCH\_INNER\_OUTER\_PSP GL\_PATCH\_OUTER\_INNER\_PSP and GL\_PATCH\_OUTER\_OUTER\_PSP. Each of these specified whether the (u,v)=(1,0) is an inner edge or an outer edge. An inner edge is only drawn up to the 2nd last row of control points; an abutting patch needs to have 3 rows of control points to match up properly. An outer edge goes out to the edge of the control mesh.
+</td><td>This draws a spline patch. This is much like a bezier patch, but the whole patch is smooth, rather than being smooth in 4x4 sub-patches. The two flags specify whether the patch is intended to abut another spline patch. There are four flag combinations: GL_PATCH_INNER_INNER_PSP, GL_PATCH_INNER_OUTER_PSP GL_PATCH_OUTER_INNER_PSP and GL_PATCH_OUTER_OUTER_PSP. Each of these specified whether the (u,v)=(1,0) is an inner edge or an outer edge. An inner edge is only drawn up to the 2nd last row of control points; an abutting patch needs to have 3 rows of control points to match up properly. An outer edge goes out to the edge of the control mesh.</td></tr><tr><td>
 
 `void glDrawSplineElementsPSP(GLenum mode, GLuint u, GLuint v, GLenum uflags, GLenum vflags, GLenum idx_type, const GLvoid *indices);`
 
+</td><td></td></tr><tr><td>
+
 `void glDrawSplineRangeElementsPSP(GLenum mode, GLuint start, GLuint end, GLuint u, GLuint v, GLenum uflags, GLenum vflags, GLenum idx_type, const GLvoid *indices);`
 
-The indexed form of glDrawSplineArraysPSP
+</td><td>The indexed form of glDrawSplineArraysPSP</td></tr></table>
 
 TODO:
 
@@ -442,9 +445,15 @@ Vertex blending is not supported for immediate mode (`glBegin/End`). Code which 
 
 Functions:
 
+<table><tr><td>
+
 `void glWeightPointerPSP(GLint size, GLenum type, GLsizei stride, const GLvoid *array)`
 
-Sets the weight pointer. `size` may be 1 to 8, and type may be GL\_BYTE, GL\_SHORT or GL\_FLOAT. Weights must go between texture coords and colour to get a [native vertex](#native-vertex) format.
+</td><td>
+
+Sets the weight pointer. `size` may be 1 to 8, and type may be GL_BYTE, GL_SHORT or GL_FLOAT. Weights must go between texture coords and colour to get a [native vertex](#native-vertex) format.
+
+</td></tr></table>
 
 GL\_PSP\_view\_matrix
 ---------------------
