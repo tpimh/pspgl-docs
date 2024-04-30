@@ -17,21 +17,21 @@ Check out the source from Subversion with `svn co svn://svn.pspdev.org/psp/trunk
 Contents
 --------
 
-*   [Updates](#updates)
-*   [Getting the code](#getting-code)
+*   [Updates](#recent-updates)
+*   [Getting the code](#getting-the-code)
 *   [Status](#status)
-    *   [improvements](#improvements)
-    *   [limitations](#limitations)
-    *   [immediate mode](#immediate)
+    *   [improvements](#features-of-pspgl)
+    *   [limitations](#general-limitations)
+    *   [immediate mode](#immediate-mode-geometry)
     *   [vertex arrays](#vertex-arrays)
     *   [textures](#textures)
     *   [transform](#transform)
-    *   [EGL and GLUT](#egl)
-*   [PSP-specific extensions](#extensions)
-    *   [vertex pointers](#vertex-pointers)
-    *   [GL\_PSP\_statistics](#statistics)
-    *   [GL\_PSP\_bezier\_patch](#bezier-patch)
-    *   [GL\_PSP\_vertex\_blend](#vertex-blend)
+    *   [EGL and GLUT](#egl-and-glut)
+*   [PSP-specific extensions](#psp-specific-extensions)
+    *   [vertex pointers](#glpointer)
+    *   [GL\_PSP\_statistics](#gl_psp_statistics)
+    *   [GL\_PSP\_bezier\_patch](#gl_psp_bezier_patch)
+    *   [GL\_PSP\_vertex\_blend](#gl_psp_vertex_blend)
 *   [TODO](#todo)
 *   [References](#references)
 
@@ -46,18 +46,18 @@ Recent updates
 *   A big chunk of under-the-hood work to bring render-to-texture a little closer, including VRAM heap compaction.
 *   Fixed up initialization, which was surprisingly broken. It should now work reliably on 1.0 PSPs.
 *   Implemented glPush/PopAttrib, and glPush/PopClientAttrib. These are not strictly part of EGL, but they're very useful.
-*   Added [GL\_PSP\_view\_matrix](#view-matrix) extension to make use of the PSP's view transform matrix. This adds the GL\_VIEW\_PSP matrix, which is selectable with glMatrixMode().
-*   Added automatic mipmap generation. This uses the hardware to do mipmap generation, but it only works for RGBA textures (not compressed, luminance/intensity or indexed). Includes an [extension](#mipmap-debug) for mipmap debugging.
+*   Added [GL\_PSP\_view\_matrix](#gl_psp_view_matrix) extension to make use of the PSP's view transform matrix. This adds the GL\_VIEW\_PSP matrix, which is selectable with glMatrixMode().
+*   Added automatic mipmap generation. This uses the hardware to do mipmap generation, but it only works for RGBA textures (not compressed, luminance/intensity or indexed). Includes an [extension](#gl_psp_mipmap_debug) for mipmap debugging.
 *   Implemented gluScaleImage and gluBuild2DMipmaps
 *   Fixed problems with mipmaps
 *   **SVN PSPGL updated**. I will keep maintaining the Mercurial trees, but the SVN version on pspdev.org is now up to date. Check it out with `svn co svn://svn.pspdev.org/psp/trunk/pspgl`
 *   Various API additions to get ODE's demos to compile.
 *   Improved monochrome textures to use an internal cmap to reduce the size of the internal form of the textures (they're native now)
-*   Implemented [PSP\_vertex\_blend](#vertex-blend) extension
-*   Implemented [spline patch](#bezier-patch) surfaces
+*   Implemented [PSP\_vertex\_blend](#gl_psp_vertex_blend) extension
+*   Implemented [spline patch](#gl_psp_bezier_patch) surfaces
 *   Implemented indexed forms of bezier and spline patches
 *   Cleaned up varray code. This doesn't have any visible effect, but it does simplify the vertex array code and makes it easy to add other indexed primitvies (ie, beziers)
-*   Implemented glDrawBezierArrays(). Still to do: indexed arrays. Details [below](#bezier-patch)
+*   Implemented glDrawBezierArrays(). Still to do: indexed arrays. Details [below](#gl_psp_bezier_patch)
 *   fixed spotlights; documented spot exponent and cutoff angle
 *   added magnifier test program for glCopyTexImage2D
 *   implement glCopyTexImage2D - pretty good performance
@@ -117,7 +117,7 @@ You can use the normal `gl*Pointer` calls to configure arrays in any way you lik
 <tr><td>EGL config selection works</td>
 <td>You can choose 16 or 32 bit framebuffers in a number of configurations, and decide whether or not to have a depth buffer</td></tr><tr><td>
 
-[extensions](#extensions) for PSP hardware features
+[extensions](#psp-specific-extensions) for PSP hardware features
 
 </td><td>GL extensions allow PSP hardware features to be exposed in an efficient way without breaking programs which don't know/care abou them.</td></tr>
 <tr><td>Automatic mipmap generation in hardware</td><td></td></tr></table>
@@ -187,7 +187,7 @@ Vertex arrays are the preferred interface for submitting geometry information. D
 
 `glArrayElement` offers little advantage over the normal immediate mode calls; use `glDrawArrays`, or `glDrawElements`.
 
-Use the smallest vertex types possible: use GL\_UNSIGNED\_BYTE rather than FLOAT for colours; use SHORTs rather than FLOATs for vertex and texcoords. Don't enable unused arrays (for example, don't enable a normal array unless lighting is enabled; there are exceptions though). Use BYTE or SHORT indices rather than INT. Use the [native vertex format](#native-vertex) where possible.
+Use the smallest vertex types possible: use GL\_UNSIGNED\_BYTE rather than FLOAT for colours; use SHORTs rather than FLOATs for vertex and texcoords. Don't enable unused arrays (for example, don't enable a normal array unless lighting is enabled; there are exceptions though). Use BYTE or SHORT indices rather than INT. Use the [native vertex format](#native-vertex-format) where possible.
 
 Use strips and fans where possible, though indexed independent triangles are still pretty efficient.
 
@@ -224,6 +224,8 @@ The "access" parameter of `glMapBufferARB` is used to determine how the cache is
 In general, the assumption is that buffer objects are intended for buffers shared with hardware. They are kept in CPU cache only while mapped for access by the CPU, and are otherwise evicted from the cache. This leaves the CPU cache free for other data, and makes sure the hardware always sees a consistent view of the memory. If you don't put your arrays in buffer objects into a form which is directly useful to hardware, you end up using buffer objects like an inefficient form of `malloc` with bad cache characteristics.
 
 Note that it is always an error to map a buffer while it is still in use; PSPGL enforces this by raising an error if you try to use a buffer while its mapped, and waiting for the hardware to finish if you create a writable mapping.
+
+###### Native vertex format
 
 To arrange a vertex array in native vertex format, you must specify your arrays in the following order in memory (leaving out any array you're not enabling), with sizes and types as follows:
 
@@ -451,7 +453,7 @@ Functions:
 
 </td><td>
 
-Sets the weight pointer. `size` may be 1 to 8, and type may be GL_BYTE, GL_SHORT or GL_FLOAT. Weights must go between texture coords and colour to get a [native vertex](#native-vertex) format.
+Sets the weight pointer. `size` may be 1 to 8, and type may be GL_BYTE, GL_SHORT or GL_FLOAT. Weights must go between texture coords and colour to get a [native vertex](#native-vertex-format) format.
 
 </td></tr></table>
 
