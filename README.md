@@ -8,11 +8,11 @@ Jeremy Fitzhardinge <[jeremy@goop.org](mailto:jeremy@goop.org)\>
 Quick Start
 -----------
 
-[Download](http://hg.goop.org/pspgl/jsgf?cmd=archive;node=working;type=zip) .zip file of current source.
+[Download](https://github.com/pspdev/pspgl/archive/refs/heads/master.zip) .zip file of current source.
 
-Check out the source from Subversion with `svn co svn://svn.pspdev.org/psp/trunk/pspgl`
+Check out the source from Git with `git clone https://github.com/pspdev/pspgl.git`
 
-[Pre-compiled demos](pspgl-demos.html) of goop.org PSPGL features.
+[Pre-compiled demos](demos.md) of PSPGL features.
 
 Contents
 --------
@@ -82,13 +82,9 @@ My main influence is the OpenGL/ES subset of OpenGL. This provides a fairly comp
 Getting the code
 ================
 
-The pspdev.org Subversion server is probably the best way to get the code. You can [browse it](http://svn.pspdev.org/listing.php?repname=psp&path=%2Ftrunk%2Fpspgl%2F&rev=0&sc=0) or check it out with Subversion (`svn co svn://svn.pspdev.org/psp/trunk/pspgl`).
+The pspdev GitHub is probably the best way to get the code. You can [browse it](https://github.com/pspdev/pspgl) or clone it with git (`git clone https://github.com/pspdev/pspgl.git`).
 
-I locally maintain the code with the [Mercurial](http://selenic.com/mercurial) source control system. This is a simple, portable system which runs on Unix, Mac and Windows systems. If you want to hack on PSPGL's code, then the best thing to do is install Mercurial, and pull a current tree from [http://hg.goop.org/pspgl/jsgf](http://hg.goop.org/pspgl/jsgf). The tag "working" marks the version I last tested as working reasonably well (ie, not completely broken); it may or may not be the tip. Use `hg update -C working` to get this version.
-
-All the source is browsable at [http://hg.goop.org/pspgl/jsgf](http://hg.goop.org/pspgl/jsgf). You can download the complete source archive of the "tip" version as a [.zip](http://hg.goop.org/pspgl/jsgf?cmd=archive;node=working;type=zip) or [.tar.gz](http://hg.goop.org/pspgl/jsgf?cmd=archive;node=working;type=gz) file.
-
-I also maintain a separate archive of my changes as patches at [http://hg.goop.org/pspgl/patches](http://hg.goop.org/pspgl/patches). Again, these can be downloaded as a [zip](http://hg.goop.org/pspgl/patches?cmd=archive;node=tip;type=zip) or [.tar.gz](http://hg.goop.org/pspgl/patches?cmd=archive;node=tip;type=gz) file. The `series` file lists what order the patches should be applied in.
+You can download the complete source archive of the "master" branch as a [.zip](https://github.com/pspdev/pspgl/archive/refs/heads/master.zip) or [.tar.gz](https://github.com/pspdev/pspgl/archive/refs/heads/master.tar.gz) file.
 
 Status
 ======

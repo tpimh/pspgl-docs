@@ -1,11 +1,11 @@
 PSPGL demos
 ===========
 
-Jeremy Fitzhardinge <[jeremy@goop.org](http://web.archive.org/web/20160505194813/mailto:jeremy@goop.org)\>
+Jeremy Fitzhardinge <[jeremy@goop.org](mailto:jeremy@goop.org)\>
 
 Download [pspgl-demos.zip](pspgl-demos.zip)
 
-Demos written using PSPGL; See http://www.goop.org/psp/gl/ for details and source.
+Demos written using PSPGL; See [README.md](README.md) for details and source.
 
 `vertexblend`: Vertex blending (skinning)
 ---------------------------------------
